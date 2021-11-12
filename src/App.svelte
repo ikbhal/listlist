@@ -10,6 +10,9 @@ searchResult.subscribe(value => {
 	searchResultData = value;
 });
 let outerList = ["Kotlin List", "Java List", "Svelte List"];
+let outerCollapseMap = {"Kotlin List": false, "Java List": false, "Svelte List": false};
+let curolname = "Kotlin List"; 
+let outerListStore = writable(outerList);
 let lldata = {
 	"Kotlin List": ["Kotlin Js", "classes", "Anroid", "examples"],
 	"Java List": ["OPPs", "collections", "spring boot"],
@@ -19,7 +22,21 @@ let lldata = {
 };
 let buttonCount = 0;
 
+const addOuterList = () => {
+	const name = prompt("enter outer list name");
+	const li = outerList.indexOf(name);
+	if(li >=0){
+		alert(`duplicate outer list name: $name please try again`);
+		return;
+	}
+	outerList.push(name);
+	lldata[name] = [];
+	console.log("lldata:", lldata, "; outerList:", outerList);
+};
+
 const searchHelper = (searchText) => {
+	if(!searchText || searchText.trim() == "")
+		return;
 	// console.log("inside search helper st:", searchText);
 	const result = outerList.filter(name => {
 		
@@ -36,12 +53,26 @@ const onSearchHandler = () => {
 	searchHelper(searchText);
 	console.log("search result: ", searchResult);
 };
+const toggleCollapse = (name) => {
+	if(name in outerCollapseMap)
+		outerCollapseMap[name] = ! outerCollapseMap[name];
+};
+const getCollapseText = (name) => {
+	if(name in outerCollapseMap){
+		return outerCollapseMap[name] ? '+': '-';
+	}else{
+		return "";
+	}
+}
 </script>
 
-<main use:shortcut={{shift: true, code: 'Digit1'}} on:click={onSearchHandler}>
+<main >
   <div class="debug_container">
     buttonCount {buttonCount}
    </div>
+   <button use:shortcut={{shift:true, code: 'Digit1'}} on:click={onSearchHandler}>
+	Search	
+	</button>
    <div>
 	   Search Text is : {searchText}
    </div>
@@ -61,19 +92,44 @@ const onSearchHandler = () => {
 	{/if}
 <h1>List of List</h1>
 <p>simplified version of workflowy.com or basic slack</p>
+<button on:click={addOuterList}>Add Outer List</button><br/>
 <ul>
-	{#each outerList as outerListName}
-	<li>
-		{outerListName}
+	{#each $outerListStore as outerListName}
+	<li class="outer_list">
+		{#if curolname == outerListName}
+		<span class="current_outer_list"> Current</span>
+		{/if}
+		<span class="collapse" on:click={toggleCollapse(outerListName)}>
+			{getCollapseText(outerListName)}
+		</span>
+		<span class="outer_list_name" on:click={() => curolname=outerListName}>
+			{outerListName}
+		</span>
+		{#if outerListName in outerCollapseMap && !outerCollapseMap[outerListName]}
 		<ul>
 			{#each lldata[outerListName] as item}
 			<li>{item}</li>
 			{/each}
 		</ul>
+		{/if}
 	</li>
 	{/each}
 </ul>
 </main>
 
 <style>
+li{
+	list-style-type: none;
+}
+.outer_list {
+	margin-bottom: 20px;
+}
+.current_outer_list {
+ background-color: greenyellow;
+}
+.collapse{
+ background-color: goldenrod;
+ padding:5px;
+ color: white;
+}
 </style>
