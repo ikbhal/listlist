@@ -1,30 +1,48 @@
 <script>
-	export let name;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+
+<h1>List of List</h1>
+<p>simplified version of workflowy.com or basic slack</p>
+<ul>
+	<li>
+		Kotlin List
+		<ul>
+			<li>kotlin js</li>
+			<li>kotliin classes</li>
+			<li>Kotlin collections</li>
+			<li>Kotlin Android</li>
+			<li>kotlin examples</li>
+			<li>Kotlin kones</li>
+			<li>Kotlin ktor</li>
+			<li>Kotlin kmongo</li>
+		</ul>
+	</li>
+	<li>Java List
+		<ul>
+			<li>Java OOPS</li>
+			<li>Java collections</li>
+			<li>Java spring boot</li>
+		</ul>
+	</li>
+	<li>Svelte List
+		<ul>
+			<li>Svelte hello world</li>
+			<li>Dynamic Attributes</li>
+			<li>Styling</li>
+			<li>nested components</li>
+			<li>Html tags</li>
+			<li>Reactivity</li>
+			<li>Props</li>
+			<li>Logic</li>
+			<li>Events</li>
+			<li>Lifecycle</li>
+			<li>Store</li>
+		</ul>
+	</li>
+</ul>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
