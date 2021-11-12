@@ -9,16 +9,31 @@ let searchResultData = [];
 searchResult.subscribe(value => {
 	searchResultData = value;
 });
+let outerList = ["Kotlin List", "Java List", "Svelte List"];
+let lldata = {
+	"Kotlin List": ["Kotlin Js", "classes", "Anroid", "examples"],
+	"Java List": ["OPPs", "collections", "spring boot"],
+	"Svelte List": ["Hello world", "Dyanmic attributes",
+		"styling", "props", "events", "store"
+	],
+};
 let buttonCount = 0;
-const onSearchHandler = () => {
+
+const searchHelper = (searchText) => {
+	// console.log("inside search helper st:", searchText);
+	const result = outerList.filter(name => {
+		
+		// console.log("name:", name); 
+		return name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+	});
+	// console.log("serach result found here: ", result);
+	$searchResult = [ ...result];
+};
+const onSearchHandler = () => { 
 	console.log("onsearch handler");
 	buttonCount = buttonCount + 1;
 	searchText= prompt("Please enter your name", "Harry Potter");
-	if(searchText == 'list'){
-		$searchResult = ['Kotlin List', "Java List"]
-	}else {
-		$searchResult = [];
-	}
+	searchHelper(searchText);
 	console.log("search result: ", searchResult);
 };
 </script>
