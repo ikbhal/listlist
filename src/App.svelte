@@ -1,8 +1,49 @@
 <script>
+import { writable } from 'svelte/store';
+import {shortcut} from './shortcut.js';
+//  writable([]);
+let searchText = 'Not Entered Yet';
+// let searchResult = ["Kotlin List", "Java List", "Svelte List"];
+let searchResult = writable([]);
+let searchResultData = [];
+searchResult.subscribe(value => {
+	searchResultData = value;
+});
+let buttonCount = 0;
+const onSearchHandler = () => {
+	console.log("onsearch handler");
+	buttonCount = buttonCount + 1;
+	searchText= prompt("Please enter your name", "Harry Potter");
+	if(searchText == 'list'){
+		$searchResult = ['Kotlin List', "Java List"]
+	}else {
+		$searchResult = [];
+	}
+	console.log("search result: ", searchResult);
+};
 </script>
 
-<main>
-
+<main use:shortcut={{shift: true, code: 'Digit1'}} on:click={onSearchHandler}>
+  <div class="debug_container">
+    buttonCount {buttonCount}
+   </div>
+   <div>
+	   Search Text is : {searchText}
+   </div>
+   	{#if searchResultData && searchResultData.length >0  }
+		<div class="searchList" >
+		   <h3>Search List</h3>
+			{#each $searchResult as item}
+				<div class="searchItem">
+					{item}
+				</div>
+			{/each}
+	   </div>
+	{:else}
+	   <div class="search-result-empty">
+		   No data found for search
+	   </div>
+	{/if}
 <h1>List of List</h1>
 <p>simplified version of workflowy.com or basic slack</p>
 <ul>
