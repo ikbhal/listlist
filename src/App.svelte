@@ -2,6 +2,7 @@
 import { writable } from 'svelte/store';
 import {shortcut} from './shortcut.js';
 //  writable([]);
+let itemText = "";
 let searchText = 'Not Entered Yet';
 // let searchResult = ["Kotlin List", "Java List", "Svelte List"];
 let searchResult = writable([]);
@@ -22,6 +23,17 @@ let lldata = {
 };
 let buttonCount = 0;
 
+const itemTextKeyHandler = e => {
+	console.log("inside item text key handler");
+	if(e.charCode === 13){
+		//add itemText append 
+		if(curolname in lldata){
+			lldata[curolname].push(itemText);
+			$outerListStore = [... $outerListStore]; // todo force to refresh
+		}
+		itemText = "";
+	}
+};
 const addOuterList = () => {
 	const name = prompt("enter outer list name");
 	const li = outerList.indexOf(name);
@@ -93,6 +105,11 @@ const getCollapseText = (name) => {
 <h1>List of List</h1>
 <p>simplified version of workflowy.com or basic slack</p>
 <button on:click={addOuterList}>Add Outer List</button><br/>
+<input type="text" class="item_text" 
+	placeholder="inner list's item" 
+	bind:value={itemText}
+	on:keypress={itemTextKeyHandler}
+/> 
 <ul>
 	{#each $outerListStore as outerListName}
 	<li class="outer_list">
