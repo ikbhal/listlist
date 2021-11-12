@@ -79,6 +79,42 @@ const getCollapseText = (name) => {
 </script>
 
 <main >
+  <div class="header">
+der fixed
+  </div>
+  <div class="row">
+	  <div class="column left">
+		<h3>Outer list </h3>
+		<div><button on:click={addOuterList}>Add Outer List</button></div>
+		<div class="outerListNames">
+			{#each $outerListStore as oname}
+			<div class="olist" on:click={()=> curolname=oname}>{oname}</div>
+			{/each}
+		</div>
+	  </div>
+	  <div class="column middle">
+			<div class="currentList">
+				<div class="listName">List Name: {curolname}</div>
+				<h3>Items</h3>
+				<div class="items">
+					{#each lldata[curolname] as item}
+					<div class="item">{item}</div>
+					{/each}
+				</div>
+			</div>
+	  </div>
+	  <div class="column right">
+			column 3
+	  </div>
+  </div>
+  <div class="footer">
+	  
+	<input type="text" class="item_text" 
+		placeholder="inner list's item" 
+		bind:value={itemText}
+		on:keypress={itemTextKeyHandler}
+	/> 
+  </div>
   <div class="debug_container">
     buttonCount {buttonCount}
    </div>
@@ -104,12 +140,7 @@ const getCollapseText = (name) => {
 	{/if}
 <h1>List of List</h1>
 <p>simplified version of workflowy.com or basic slack</p>
-<button on:click={addOuterList}>Add Outer List</button><br/>
-<input type="text" class="item_text" 
-	placeholder="inner list's item" 
-	bind:value={itemText}
-	on:keypress={itemTextKeyHandler}
-/> 
+
 <ul>
 	{#each $outerListStore as outerListName}
 	<li class="outer_list">
@@ -135,6 +166,56 @@ const getCollapseText = (name) => {
 </main>
 
 <style>
+.header {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   background-color: lightgreen;
+   color: white;
+   text-align: center;
+   height: 50px;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: lightgreen;
+   color: white;
+   text-align: center;
+   height: 50px;
+}
+
+.footer input {
+	width: 80%;
+	margin:10px;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left, .right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+
+.row {
+	margin-top:50px;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 li{
 	list-style-type: none;
 }
